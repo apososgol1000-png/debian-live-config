@@ -10,14 +10,14 @@ jobs:
     - name: Descargar tu repositorio clonado
       uses: actions/checkout@v4
 
-    - name: Instalar herramientas y dependencias del autor
+    - name: Instalar herramientas oficiales de Debian
       run: |
         sudo apt update
-        sudo apt install -y live-build debootstrap squashfs-tools genisoimage isolinux syslinux-common make cpio
+        sudo apt install -y live-build debootstrap squashfs-tools genisoimage isolinux syslinux-common cpio
 
-    - name: Configurar Entorno e Inyectar Ajustes
+    - name: Configurar Entorno Live Build
       run: |
-        make setup
+        sudo lb config
 
     - name: Compilar Imagen ISO Final (AeroMac-OS)
       run: |
