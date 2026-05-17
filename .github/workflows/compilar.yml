@@ -1,0 +1,30 @@
+name: Compilar AeroMac-OS Oficial
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Descargar tu repositorio clonado
+      uses: actions/checkout@v4
+
+    - name: Instalar herramientas y dependencias del autor
+      run: |
+        sudo apt update
+        sudo apt install -y live-build debootstrap squashfs-tools genisoimage isolinux syslinux-common make cpio
+
+    - name: Configurar Entorno e Inyectar Ajustes
+      run: |
+        make setup
+
+    - name: Compilar Imagen ISO Final (AeroMac-OS)
+      run: |
+        sudo lb build
+
+    - name: Subir AeroMac-OS ISO Terminada
+      uses: actions/upload-artifact@v4
+      with:
+        name: AeroMac-OS-ISO-Instalable
+        path: "*.iso"
